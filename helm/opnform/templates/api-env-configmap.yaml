@@ -1,0 +1,44 @@
+apiVersion: v1
+data:
+  APP_DEBUG: "false"
+  APP_ENV: local
+  APP_KEY: base64:SEKRETKEYHERE
+  APP_NAME: OpnForm
+  APP_URL: http://localhost
+  AWS_ACCESS_KEY_ID: ""
+  AWS_BUCKET: ""
+  AWS_DEFAULT_REGION: us-east-1
+  AWS_SECRET_ACCESS_KEY: ""
+  BROADCAST_CONNECTION: log
+  CACHE_DRIVER: redis
+  CACHE_STORE: redis
+  FILESYSTEM_DRIVER: local
+  FRONT_API_SECRET: SECRETKEYHERE
+  JWT_SECRET: SECRETKEYHERE
+  JWT_TTL: "1440"
+  LOG_CHANNEL: errorlog
+  LOG_LEVEL: debug
+  MAIL_ENCRYPTION: ""
+  MAIL_FROM_ADDRESS: your@email.com
+  MAIL_FROM_NAME: OpnForm
+  MAIL_HOST: ""
+  MAIL_MAILER: log
+  MAIL_PASSWORD: ""
+  MAIL_PORT: ""
+  MAIL_USERNAME: your@email.com
+  MIX_PUSHER_APP_CLUSTER: mt1
+  MIX_PUSHER_APP_KEY: ""
+  MUX_API_TOKEN: ""
+  MUX_WORKSPACE_ID: ""
+  OPEN_AI_API_KEY: ""
+  PUSHER_APP_CLUSTER: mt1
+  PUSHER_APP_ID: ""
+  PUSHER_APP_KEY: ""
+  PUSHER_APP_SECRET: ""
+  QUEUE_CONNECTION: redis
+  SELF_HOSTED: "true"
+  SESSION_DRIVER: redis
+  SESSION_LIFETIME: "120"
+kind: ConfigMap
+metadata:
+  name: api-env

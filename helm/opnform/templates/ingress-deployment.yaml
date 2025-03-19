@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ingress
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+    spec:
+      containers:
+        - image: nginx:1
+          name: opnform-ingress
+          ports:
+            - containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /etc/nginx/templates/default.conf.template
+              name: ingress-cm0
+              subPath: default.conf.template
+      restartPolicy: Always
+      volumes:
+        - configMap:
+            items:
+              - key: nginx.conf
+                path: default.conf.template
+            name: ingress-cm0
+          name: ingress-cm0

@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  NUXT_API_SECRET: SECRETKEYHERE
+  NUXT_PRIVATE_API_BASE: http://ingress/api
+  NUXT_PUBLIC_API_BASE: /api
+  NUXT_PUBLIC_APP_URL: /
+  NUXT_PUBLIC_ENV: dev
+kind: ConfigMap
+metadata:
+  name: ui-env

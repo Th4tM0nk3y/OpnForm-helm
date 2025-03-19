@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui
+spec:
+  replicas: 1
+  template:
+    metadata:
+    spec:
+      containers:
+        - envFrom:
+          - configMapRef:
+              name: ui-env
+          image: jhumanj/opnform-client:latest
+          name: opnform-client
+      restartPolicy: Always

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+    spec:
+      containers:
+        - name: opnform-api
+          image: jhumanj/opnform-api:latest
+          envFrom:
+          - configMapRef:
+              name: api-env
+          env:
+          - name: APP_ENV
+            value: production
+          - name: IS_API_WORKER
+            value: "false"
+          - name: DB_HOST
+            value: db
+          - name: REDIS_HOST
+            value: redis
+          - name: DB_DATABASE
+            value:
+          - name: DB_USERNAME
+            value:
+          - name: DB_PASSWORD
+            value:
+          - name: DB_CONNECTION
+            value:
+          - name: FILESYSTEM_DISK
+            value: local
+          - name: LOCAL_FILESYSTEM_VISIBILITY
+            value: public
+      restartPolicy: Always

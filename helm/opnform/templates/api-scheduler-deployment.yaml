@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-scheduler
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+    spec:
+      containers:
+        - name: opnform-api-scheduler
+          image: jhumanj/opnform-api:latest
+          envFrom:
+          - configMapRef:
+              name: api-env
+          env:
+          - name: APP_ENV
+            value: production
+          - name: IS_API_WORKER
+            value: "true"
+          - name: CONTAINER_ROLE
+            value: scheduler
+          - name: PHP_MEMORY_LIMIT
+            value: 512M
+          - name: PHP_MAX_EXECUTION_TIME
+            value: 60
+          command: ["php", "artisan", "schedule:work"]
+      restartPolicy: Always

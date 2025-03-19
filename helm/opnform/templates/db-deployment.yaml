@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+    spec:
+      containers:
+        - name: opnform-db
+          image: postgres:16
+          env:
+            - name: POSTGRES_DB
+              value: 
+            - name: POSTGRES_PASSWORD
+              value: 
+            - name: POSTGRES_USER
+              value: 
+          livenessProbe:
+            exec:
+              command:
+                - pg_isready -U forge
+            failureThreshold: 5
+            periodSeconds: 5
+            timeoutSeconds: 5
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-data
+      restartPolicy: Always
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: postgres-data
