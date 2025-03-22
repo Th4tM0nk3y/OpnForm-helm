@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: db
+  namepspace: {{ .Values.global.namespace default 'opnform' }}
 spec:
   replicas: 1
   strategy:
@@ -11,7 +12,11 @@ spec:
     spec:
       containers:
         - name: opnform-db
-          image: postgres:16
+        {{- if .Values.global.registry.url }}
+        - image: {{ .Values.global.registry.url }}/{{ .Values.api.image default postgres }}:{{ .Values.api.tag default 16 }}
+        {{- else }}
+        - image: {{ .Values.api.image default postgres }}:{{ .Values.api.tag default 16 }}
+        {{- end }}
           env:
             - name: POSTGRES_DB
               value: 

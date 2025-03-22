@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api
+  namepspace: {{ .Values.global.namespace default 'opnform' }}
 spec:
   replicas: 1
   strategy:
@@ -11,10 +12,22 @@ spec:
     spec:
       containers:
         - name: opnform-api
-          image: jhumanj/opnform-api:latest
+        {{- if .Values.global.registry.url }}
+        - image: {{ .Values.global.registry.url }}/{{ .Values.api.image default jhumanj/opnform-api }}:{{ .Values.api.tag default latest }}
+        {{- else }}
+        - image: {{ .Values.api.image default jhumanj/opnform-api }}:{{ .Values.api.tag default latest }}
+        {{- end }}
           envFrom:
           - configMapRef:
               name: api-env
+          - secretRef:
+              name: psql-credentials
+          - secretRef:
+              name: api-env-general
+          - secretRef:
+              name: api-env-aws
+          - secretRef:
+              name: api-env-mail
           env:
           - name: APP_ENV
             value: production
@@ -24,14 +37,6 @@ spec:
             value: db
           - name: REDIS_HOST
             value: redis
-          - name: DB_DATABASE
-            value:
-          - name: DB_USERNAME
-            value:
-          - name: DB_PASSWORD
-            value:
-          - name: DB_CONNECTION
-            value:
           - name: FILESYSTEM_DISK
             value: local
           - name: LOCAL_FILESYSTEM_VISIBILITY

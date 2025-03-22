@@ -48,6 +48,7 @@ data:
 
 kind: ConfigMap
 metadata:
+  namepspace: {{ .Values.global.namespace default 'opnform' }}
   annotations:
     use-subpath: "true"
   name: ingress-cm0

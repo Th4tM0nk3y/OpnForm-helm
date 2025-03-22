@@ -1,6 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
+  namepspace: {{ .Values.global.namespace default 'opnform' }}
   name: ingress
 spec:
   ports:

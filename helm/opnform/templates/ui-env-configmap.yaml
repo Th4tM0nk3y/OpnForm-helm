@@ -8,3 +8,4 @@ data:
 kind: ConfigMap
 metadata:
   name: ui-env
+  namepspace: {{ .Values.global.namespace default 'opnform' }}

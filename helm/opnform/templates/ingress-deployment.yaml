@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namepspace: {{ .Values.global.namespace default 'opnform' }}
   name: ingress
 spec:
   replicas: 1
@@ -10,7 +11,11 @@ spec:
     metadata:
     spec:
       containers:
-        - image: nginx:1
+        {{- if .Values.global.registry.url }}
+        - image: {{ .Values.global.registry.url }}/{{ .Values.api.image default nginx }}:{{ .Values.api.tag default 1 }}
+        {{- else }}
+        - image: {{ .Values.api.image default nginx }}:{{ .Values.api.tag default 1 }}
+        {{- end }}
           name: opnform-ingress
           ports:
             - containerPort: 80

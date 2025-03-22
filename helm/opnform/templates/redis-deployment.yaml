@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namepspace: {{ .Values.global.namespace default 'opnform' }}
   name: redis
 spec:
   replicas: 1
@@ -11,5 +12,10 @@ spec:
     spec:
       containers:
         - image: redis:7
+        {{- if .Values.global.registry.url }}
+        - image: {{ .Values.global.registry.url }}/{{ .Values.api.image default refis }}:{{ .Values.api.tag default 7 }}
+        {{- else }}
+        - image: {{ .Values.api.image default redis }}:{{ .Values.api.tag default 7 }}
+        {{- end }}
           name: opnform-redis
       restartPolicy: Always

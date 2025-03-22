@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namepspace: {{ .Values.global.namespace default 'opnform' }}
   name: ui
 spec:
   replicas: 1
@@ -11,6 +12,10 @@ spec:
         - envFrom:
           - configMapRef:
               name: ui-env
-          image: jhumanj/opnform-client:latest
+        {{- if .Values.global.registry.url }}
+          image: {{ .Values.global.registry.url }}/{{ .Values.api.image default jhumanj/opnform-client }}:{{ .Values.api.tag default latest }}
+        {{- else }}
+          image: {{ .Values.api.image default jhumanj/opnform-client }}:{{ .Values.api.tag default latest }}
+        {{- end }}
           name: opnform-client
       restartPolicy: Always
